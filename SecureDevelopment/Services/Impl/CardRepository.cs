@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecureDevelopment.Data;
-using SecureDevelopment.M.Requests;
 using SecureDevelopment.Models.Requests;
 using SecureDevelopment.Services;
 
@@ -18,14 +17,19 @@ namespace MebelShop.Services.Impl
             _logger = logger;
         }
 
-        public int Create(CreateCardRequest data)
+        public string Create(Card data)
         {
-            _dbContext.Card.Add(data);
+            var client = _dbContext.Client.FirstOrDefault(client => client.ClientId == data.ClientId);
+            if (client == null)
+                throw new Exception("Client not found");
+
+            _dbContext.Cards.Add(data);
             _dbContext.SaveChanges();
-            return data.CardId;
+            return data.CardId.ToString();
+
         }
 
-        public int Delete(Guid id)
+        public int Delete(string id)
         {
             throw new NotImplementedException();
         }
@@ -35,12 +39,22 @@ namespace MebelShop.Services.Impl
             throw new NotImplementedException();
         }
 
-        public Card GetById(Guid id)
+        public IList<Card> GetByClientId(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Card GetById(string id)
         {
             throw new NotImplementedException();
         }
 
         public int Update(Card data)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IRepository<Card, string>.Create(Card data)
         {
             throw new NotImplementedException();
         }

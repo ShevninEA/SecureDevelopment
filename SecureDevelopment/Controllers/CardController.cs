@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SecureDevelopment.Data;
+using SecureDevelopment.Models;
 using SecureDevelopment.Models.Requests;
 using SecureDevelopment.Models.Response;
 using SecureDevelopment.Services;
@@ -15,16 +16,16 @@ namespace SecureDevelopment.Controllers
         private readonly ILogger<CardController> _logger;
         private readonly ICardRepository _cardRepository;
 
-        public CardController(ILogger<CardController> logger, 
+        public CardController(ILogger<CardController> logger,
             ICardRepository cardRepository)
         {
-            _cardRepository= cardRepository;
+            _cardRepository = cardRepository;
             _logger = logger;
         }
 
-        [HttpGet("create")]
+        [HttpPost("create")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public IActionResult Create([FromBody] CreateCardRequest request) 
+        public IActionResult Create([FromBody] CreateCardRequest request)
         {
             try
             {
@@ -51,6 +52,35 @@ namespace SecureDevelopment.Controllers
             }
         }
 
+        [HttpGet("get-by-client-id")]
+        [ProducesResponseType(typeof(GetCardsResponse), StatusCodes.Status200OK)]
+        public IActionResult GetByClientId([FromQuery] string clientId)
+        {
+            try
+            {
+                var cards = _cardRepository.GetByClientId(clientId);
+                return Ok(new GetCardsResponse
+                {
+                    Cards = cards.Select(card => new CardDto
+                    {
+                        CardNo = card.CardNo,
+                        CVV2 = card.CVV2,
+                        Name = card.Name,
+                        ExpDate = card.ExpDate.ToString("MM/yy")
+                    }).ToList()
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Get card error");
+                return Ok(new CreateCardResponse
+                {
+                    ErrorCode = 1013,
+                    ErrorMessage = "Get card error"
+                });
+            }
 
+
+        }
     }
 }

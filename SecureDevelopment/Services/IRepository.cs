@@ -8,4 +8,4 @@
         int Update(T data);
         int Delete(TId id);
     }
-}
+
