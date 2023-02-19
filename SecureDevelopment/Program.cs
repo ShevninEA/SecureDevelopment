@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using SecureDevelopment.Data;
+using SecureDevelopment.Models;
 using SecureDevelopment.Services;
 
 namespace SecureDevelopment
@@ -15,6 +16,15 @@ namespace SecureDevelopment
 
             // Add services to the container.
 
+            #region Configure Optins Service
+
+            builder.Services.Configure<DatabaseOptions>(options =>
+            {
+                builder.Configuration.GetSection("Settings:DatabaseOptions").Bind(options);
+            });
+
+            #endregion
+
             #region Configure Repositories
 
             // Регистрация репозиториев
@@ -22,7 +32,6 @@ namespace SecureDevelopment
             builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
             #endregion
-
 
             #region Configure logging
 

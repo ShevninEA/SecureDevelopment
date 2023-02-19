@@ -24,7 +24,7 @@ namespace MebelShop.Services.Impl
             return data.ClientId;
         }
 
-        public int Delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +39,7 @@ namespace MebelShop.Services.Impl
             throw new NotImplementedException();
         }
 
-        public int Update(Client data)
+        public void Update(Client data)
         {
             throw new NotImplementedException();
         }

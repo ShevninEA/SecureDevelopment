@@ -34,7 +34,8 @@ namespace SecureDevelopment.Controllers
                     ClientId = request.ClientId,
                     CardNo = request.CardNo,
                     ExpDate = request.ExpDate,
-                    CVV2 = request.CVV2
+                    CVV2 = request.CVV2,
+                    Name = request.Name
                 });
                 return Ok(new CreateCardResponse
                 {
@@ -79,8 +80,6 @@ namespace SecureDevelopment.Controllers
                     ErrorMessage = "Get card error"
                 });
             }
-
-
         }
     }
 }

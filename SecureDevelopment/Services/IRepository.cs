@@ -4,8 +4,8 @@
     {
         IList<T> GetAll();
         T GetById(TId id);
-        int Create(T data);
-        int Update(T data);
-        int Delete(TId id);
+        TId Create(T data);
+        void Update(T data);
+        void Delete(TId id);
     }
 
